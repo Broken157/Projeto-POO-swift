@@ -1,20 +1,22 @@
 import Foundation
 
+// enum NivelAluno
 enum NivelAluno{
-    case iniciante 
+    case iniciante
     case intermediario
     case avancado
 }
 
+// Criação classe base
 class Pessoa{
     var nome: String
     var email: String
-    
+   
     init(nome: String, email: String){
         self.nome = nome
         self.email = email
     }
-    
+   
     func getDescricao() -> String{
         return """
         Informações Pessoais:
@@ -24,6 +26,39 @@ class Pessoa{
     }
 }
 
+// Criação da classe Aluno
+class Aluno: Pessoa{
+    let matricula: String
+    var nivel: NivelAluno
+    private(set) var plano: Plano
+    
+    init(nome: String, email: String, matricula: String, plano: Plano){
+        self.matricula = matricula
+        self.nivel = .iniciante
+        self.plano = plano
+        super.init(nome: nome, email: email)
+    }
+}
+
+// Criação da classe Instrutor
+class Instrutor: Pessoa{
+    let especialidade: String
+    
+    init(nome: String, email: String, especialidade: String){
+        self.especialidade = especialidade
+        super.init(nome: nome, email: email)
+    }
+    
+    override func getDescricao() -> String{
+        return """
+        Nome: \(nome)
+        Email: \(email) 
+        Especialidade: \(especialidade)
+        """
+    }
+}
+
+// Criação classe plano
 class Plano{
     var nome: String
 
@@ -36,6 +71,7 @@ class Plano{
     }
 }
 
+// Plano mensal
 class PlanoMensal: Plano{
     init(){
         super.init(nome: "Plano Mensal")
@@ -46,43 +82,30 @@ class PlanoMensal: Plano{
     }
 }
 
-class Instrutor: Pessoa{
-    let especialidade: String
-    
-    init(nome: String, email: String, especialidade: String){
-        self.especialidade = especialidade
-        super.init(nome: nome, email: email)
-    }
-    
-    override func getDescricao() -> String{
-        return """
-        descricao:
-        Nome: \(nome)
-        Email: \(email)
-        Especialidade: \(self.especialidade)
-        """
-    }
-}
-
-class Aluno: Pessoa{
-    let matricula: String
-    var nivel: NivelAluno
-    private(set) var plano: Plano
-    
-    init(nome: String, email: String, matricula: String,nivel: NivelAluno, plano: Plano){
-        self.matricula = matricula
-        self.plano = plano
-        self.nivel = nivel
-        super.init(nome: nome, email: email)
-    }
-}
-
+// Plano anual
 class PlanoAnual: Plano{
     init(){
         super.init (nome: "Plano Anual(Promocional)")
     }
-    override func calcularMensalidade( ) -> Double{
-        let mensalidade: Double = (120*0.80)
+    override func calcularMensalidade() -> Double{
+        let mensalidade: Double = (120 * 0.8)
         return mensalidade
     }
 }
+
+let plano: Plano = Plano(nome:"sla")
+let aluno: Aluno = Aluno(nome:"Pedro", email:"pedro@gmail.com", matricula:"SM23", plano:plano)
+
+let descricao: String = aluno.getDescricao()
+print(descricao)
+print()
+let inst: Instrutor = Instrutor(nome:"Diogo", email:"diogo@gmail.com", especialidade:"Musculacao")
+let desc: String = inst.getDescricao()
+print(desc)
+print()
+let planoM: PlanoMensal = PlanoMensal()
+let m = planoM.calcularMensalidade()
+print(m)
+
+
+
