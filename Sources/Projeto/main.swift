@@ -129,6 +129,38 @@ class AulaPersonal: Aula{
     }
 }
 
+
+class AulaColetiva: Aula{
+
+    private(set) var alunosInscritos:  [String: Aluno] =[:]
+    var capacidadeMaxima: Int
+
+    init(alunosInscritos: [String: Aluno]){
+        self.alunosInscritos = alunosInscritos
+        self.capacidadeMaxima = 25
+
+    }
+
+    func inscrever(aluno: Aluno) -> Bool{
+        var contadora = alunosInscritos.count
+        if contadora <= capacidadeMaxima{
+            if !alunosInscritos.keys.contains(aluno.nome){
+                alunosInscritos[aluno.nome] = aluno
+                print("ALuno cadastrado com sucesso!")
+                return true
+            }
+            else{
+                print("Erro: Aluno ja cadastrado")
+                return false
+            }
+        } else{
+             print ("Erro: Capacidade Maxima Excedida")
+             return false 
+        }
+
+    }
+}
+
 let plano: Plano = Plano(nome:"sla")
 let aluno: Aluno = Aluno(nome:"Pedro", email:"pedro@gmail.com", matricula:"SM23", plano:plano)
 
