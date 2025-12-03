@@ -93,6 +93,42 @@ class PlanoAnual: Plano{
     }
 }
 
+class Aula{
+    var nome: String
+    var instrutor: Instrutor
+    
+    init(nome: String, instrutor: Instrutor){
+        self.nome = nome
+        self.instrutor = instrutor
+    }
+    
+     func getDescricao() -> String{
+        return """
+        Descricao: 
+        Aula: \(self.nome)
+        Instrutor: \(self.instrutor)
+        """
+    }
+}
+
+class AulaPersonal: Aula{
+    var aluno: Aluno
+    
+    init(nome: String, instrutor: Instrutor, aluno: Aluno){
+        self.aluno = aluno
+        super.init(nome: nome, instrutor: instrutor)
+    }
+    
+    override func getDescricao() -> String{
+       return """
+        Descricao: 
+        Aluno: \(self.aluno)
+        Aula Matriculada: \(nome)
+        Instrutor: \(instrutor)
+        """ 
+    }
+}
+
 let plano: Plano = Plano(nome:"sla")
 let aluno: Aluno = Aluno(nome:"Pedro", email:"pedro@gmail.com", matricula:"SM23", plano:plano)
 
