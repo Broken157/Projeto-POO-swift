@@ -138,17 +138,17 @@ class AulaPersonal: Aula{
 
 class AulaColetiva: Aula{
 
-    private(set) var alunosInscritos:  [String: Aluno] =[:]
+    private(set) var alunosInscritos:  [String: Aluno] = [:]
     var capacidadeMaxima: Int
 
-    init(alunosInscritos: [String: Aluno]){
+    init(nome: String, instrutor: Instrutor, alunosInscritos: [String: Aluno]){
         self.alunosInscritos = alunosInscritos
         self.capacidadeMaxima = 25
-
+        super.init(nome: nome, instrutor: instrutor)
     }
 
     func inscrever(aluno: Aluno) -> Bool{
-        var contadora = alunosInscritos.count
+        let contadora = alunosInscritos.count
         if contadora <= capacidadeMaxima{
             if !alunosInscritos.keys.contains(aluno.nome){
                 alunosInscritos[aluno.nome] = aluno
@@ -165,21 +165,12 @@ class AulaColetiva: Aula{
         }
 
     }
+    
+    override func getDescricao() -> String{
+            return """
+            Descricao:
+            Numero de vagas ocupadas: \(self.alunosInscritos)
+            Capacidade Maxima: \(self.capacidadeMaxima)
+            """
+        }
 }
-
-let plano: Plano = Plano(nome:"sla")
-let aluno: Aluno = Aluno(nome:"Pedro", email:"pedro@gmail.com", matricula:"SM23", plano:plano)
-
-let descricao: String = aluno.getDescricao()
-print(descricao)
-print()
-let inst: Instrutor = Instrutor(nome:"Diogo", email:"diogo@gmail.com", especialidade:"Musculacao")
-let desc: String = inst.getDescricao()
-print(desc)
-print()
-let planoM: PlanoMensal = PlanoMensal()
-let m = planoM.calcularMensalidade()
-print(m)
-
-
-
