@@ -36,13 +36,22 @@ class Aluno: Pessoa{
     var nivel: NivelAluno
     private(set) var plano: Plano
     
-
     // Contrutor da subclasse
     init(nome: String, email: String, matricula: String, plano: Plano){
         self.matricula = matricula
         self.nivel = .iniciante
         self.plano = plano
         super.init(nome: nome, email: email)
+    }
+    
+    // Sobrescreve a descrição para incluir detalhes do aluno
+    override func getDescricao() -> String {
+        return """
+        \(super.getDescricao())
+        Matrícula: \(self.matricula)
+        Nível: \(self.nivel)
+        Plano: \(self.plano.obterNome())
+        """
     }
 }
 
@@ -60,7 +69,7 @@ class Instrutor: Pessoa{
     override func getDescricao() -> String{
         return """
         Nome: \(nome)
-        Email: \(email) 
+        Email: \(email)
         Especialidade: \(especialidade)
         """
     }
@@ -142,15 +151,18 @@ class Aparelho: Manutencao{
         print("3...")
         print("Manutenção realizada!")
 
-        self.dataUltimaManutencao = "30/08/2025"
+        // Atualiza a data de manutenção para a data atual
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        self.dataUltimaManutencao = dateFormatter.string(from: Date())
 
-        return true // Mudar essa bomba, ta errado
+        return true
     }
 }
 
 // Fim da definição dos aparelhos
 
-// Definição da estrutura de aulas 
+// Definição da estrutura de aulas
 
 class Aula{
     let nome: String
@@ -190,8 +202,8 @@ class AulaColetiva: Aula{
     private (set) var alunosInscritos: [String: Aluno] = [:]
     let capacidadeMaxima: Int
 
-    override init(nome: String, instrutor: Instrutor){
-        self.capacidadeMaxima = 2 // Para fins de teste
+    init(nome: String, instrutor: Instrutor, capacidadeMaxima: Int = 2){
+        self.capacidadeMaxima = capacidadeMaxima // Para fins de teste
         super.init(nome: nome, instrutor: instrutor)
     }
 
@@ -199,13 +211,13 @@ class AulaColetiva: Aula{
         if self.alunosInscritos.count < capacidadeMaxima {
             if !self.alunosInscritos.keys.contains(aluno.matricula){
                 alunosInscritos[aluno.matricula] = aluno
-                print("Aluno registrado com sucesso!")
+                print("Aluno \(aluno.nome) inscrito na aula \(self.nome) com sucesso!")
                 return true
             } else{
-                print("Aluno já registrado")
+                print("Aluno já está inscrito nesta aula.")
             }
         } else{
-            print("A capacidade máxima de alunos já foi alcançada, falha no registro")
+            print("A capacidade máxima de alunos já foi alcançada, falha no registro.")
         }
 
         return false
@@ -215,10 +227,99 @@ class AulaColetiva: Aula{
         return """
         Nome da aula: \(self.nome)
         Nome do instrutor: \(self.instrutor.nome)
-        Numero de vagas ocupadas: \(self.alunosInscritos.count)
+        Vagas ocupadas: \(self.alunosInscritos.count)
         Capacidade maxima: \(self.capacidadeMaxima)
         """
     }
 }
 
 // Fim da definição da estrutura de aulas
+
+class Academia {
+    let nome: String
+    private var alunosMatriculados: [String: Aluno]
+    private var intrutoresContratados: [String: Instrutor]
+    private var aparelhos: [Aparelho]
+    private var aulasDisponiveis: [Aula]
+
+    // Construtor corrigido: inicializa as coleções como vazias
+    init(nome: String){
+        self.nome = nome
+        self.alunosMatriculados = [:]
+        self.intrutoresContratados = [:]
+        self.aparelhos = []
+        self.aulasDisponiveis = []
+    }
+    
+    func adicionarAparelho(_ aparelho: Aparelho){
+        self.aparelhos.append(aparelho)
+        print("Aparelho '\(aparelho.nomeItem)' adicionado.")
+    }
+
+    func adicionarAula(_ aula: Aula){
+        self.aulasDisponiveis.append(aula)
+        print("Aula '\(aula.nome)' adicionada.")
+    }
+
+    func contratarInstrutor(_ instrutor: Instrutor){
+        // Usa o email como chave única para o instrutor
+        if self.intrutoresContratados[instrutor.email] == nil {
+            self.intrutoresContratados[instrutor.email] = instrutor
+            print("Instrutor \(instrutor.nome) contratado com sucesso.")
+        } else {
+            print("Erro: Já existe um instrutor com o email \(instrutor.email).")
+        }
+    }
+
+    func matricularAluno(_ aluno: Aluno){
+        // Usa a matrícula como chave única para o aluno
+        if !self.alunosMatriculados.keys.contains(aluno.matricula){
+            alunosMatriculados[aluno.matricula] = aluno
+            print("Aluno \(aluno.nome) matriculado com sucesso!")
+        } else{
+            print("Erro: Aluno com matrícula \(aluno.matricula) já está matriculado.")
+        }
+    }
+
+    // Sobrecarga de método para criar e matricular um novo aluno diretamente
+    func matricularAluno(nome: String, email: String, matricula: String, plano: Plano) -> Aluno {
+        let novoAluno = Aluno(nome: nome, email: email, matricula: matricula, plano: plano)
+        self.matricularAluno(novoAluno)
+        return novoAluno
+    }
+
+    func buscarAluno(matricula: String) -> Aluno? {
+        return alunosMatriculados[matricula]
+    }
+
+    func listarAlunos(){
+        print ("\n--- Lista de Alunos Matriculados ---")
+        
+        if alunosMatriculados.isEmpty {
+            print("Nenhum aluno matriculado.")
+        } else {
+            // Ordena os alunos pelo nome para exibição
+            let alunosOrdenados = alunosMatriculados.values.sorted { $0.nome < $1.nome }
+
+            for aluno in alunosOrdenados {
+                print (aluno.getDescricao())
+                print("---")
+            }
+        }
+        print("------------------------------------")
+    }
+
+    func listarAulas(){
+        print ("\n--- Lista de Aulas Disponíveis ---")
+        
+        if aulasDisponiveis.isEmpty {
+            print("Nenhuma aula disponível.")
+        } else {
+            for aula in aulasDisponiveis {
+                print (aula.getDescricao())
+                print("---")
+            }
+        }
+        print("----------------------------------")
+    }
+}
