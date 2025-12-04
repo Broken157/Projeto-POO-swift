@@ -119,6 +119,46 @@
             "target": "Aula_1",
             "configuration": "release",
             "preLaunchTask": "swift: Build Release Aula_1"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Projeto-POO-swift}",
+            "name": "Debug Projeto-Dia2",
+            "target": "Projeto-Dia2",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug Projeto-Dia2"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Projeto-POO-swift}",
+            "name": "Release Projeto-Dia2",
+            "target": "Projeto-Dia2",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release Projeto-Dia2"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Projeto-POO-swift}",
+            "name": "Debug Projeto-Dia1",
+            "target": "Projeto-Dia1",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug Projeto-Dia1"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Projeto-POO-swift}",
+            "name": "Release Projeto-Dia1",
+            "target": "Projeto-Dia1",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release Projeto-Dia1"
         }
     ]
 }

@@ -25,8 +25,14 @@ let package = Package(
             name: "Aula_5"
         ),
         .executableTarget(
-            name: "Projeto"
+            name: "Projeto-Dia1"
         ),
+        .executableTarget(
+            name: "Projeto-Dia2"
+        ),
+        .executableTarget(
+            name: "Projeto-Dia3"
+        )
     ]
 )
 
