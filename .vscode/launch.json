@@ -159,6 +159,26 @@
             "target": "Projeto-Dia1",
             "configuration": "release",
             "preLaunchTask": "swift: Build Release Projeto-Dia1"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Projeto-POO-swift}",
+            "name": "Debug Projeto-Dia3",
+            "target": "Projeto-Dia3",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug Projeto-Dia3"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Projeto-POO-swift}",
+            "name": "Release Projeto-Dia3",
+            "target": "Projeto-Dia3",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release Projeto-Dia3"
         }
     ]
 }

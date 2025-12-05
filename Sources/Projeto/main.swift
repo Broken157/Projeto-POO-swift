@@ -20,13 +20,8 @@ class Pessoa{
         self.email = email
     }
    
-    // Função retorna nome e email
-    func getDescricao() -> String{
-        return """
-        Informações Pessoais:
-        Nome: \(self.nome)
-        Email: \(self.email)
-        """
+    // Função retorna vazio para ser Sobreescrito
+    func getDescricao(){
     }
 }
 
@@ -45,13 +40,14 @@ class Aluno: Pessoa{
     }
     
     // Sobrescreve a descrição para incluir detalhes do aluno
-    override func getDescricao() -> String {
-        return """
-        \(super.getDescricao())
+    override func getDescricao() {
+        print("""
+        Nome: \(nome)
+        Email: \(email)
         Matrícula: \(self.matricula)
         Nível: \(self.nivel)
         Plano: \(self.plano.obterNome())
-        """
+        """)
     }
 }
 
@@ -66,12 +62,12 @@ class Instrutor: Pessoa{
     }
     
     // Sobreescrita da função retorn nome, emial e especialidade
-    override func getDescricao() -> String{
-        return """
+    override func getDescricao() {
+        print("""
         Nome: \(nome)
         Email: \(email)
         Especialidade: \(especialidade)
-        """
+        """)
     }
 }
 
@@ -93,7 +89,7 @@ class Plano {
         self.tipo = tipo
     }
 
-    // obter o nome do plano.
+    // obter o nome do plano
     func obterNome() -> String {
         switch self.tipo {
         case .mensal:
@@ -105,7 +101,7 @@ class Plano {
         }
     }
 
-    // calcular a mensalidade.
+    // calcular a mensalidade
     func calcularMensalidade() -> Double {
         switch self.tipo {
         case .mensal:
@@ -129,7 +125,7 @@ class Plano {
 protocol Manutencao{
     var nomeItem: String {get}
     var dataUltimaManutencao: String {get}
-    func realizarManutencao() -> Bool
+    func realizarManutencao()
 }
 
 // Criação classe Aparelho
@@ -140,23 +136,24 @@ class Aparelho: Manutencao{
     // Construtor da classe
     init(nomeItem: String){
         self.nomeItem = nomeItem
-        self.dataUltimaManutencao = "Nenhuma"
+        self.dataUltimaManutencao = "Nenhuma manutenção realizada!"
     }
 
     // Função retorna booleano a depender se a manutenção foi bem sucessida (true) ou não (false)
-    func realizarManutencao() -> Bool{
-        print("Manutenção em andamento...")
-        print("1...")
-        print("2...")
-        print("3...")
-        print("Manutenção realizada!")
+    func realizarManutencao(){
 
         // Atualiza a data de manutenção para a data atual
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         self.dataUltimaManutencao = dateFormatter.string(from: Date())
 
-        return true
+        return print("""
+        Manutenção em andamento...
+        1...
+        2...
+        3...
+        Manutenção realizada!
+        """)
     }
 }
 
@@ -173,11 +170,11 @@ class Aula{
         self.instrutor = instrutor
     }
 
-    func getDescricao() -> String{
-        return """
+    func getDescricao(){
+        print( """
         Nome da aula: \(self.nome)
         Nome do instrutor: \(self.instrutor.nome)
-        """
+        """)
     }
 }
 
@@ -189,12 +186,12 @@ class AulaPersonal: Aula{
         super.init(nome: nome, instrutor: instrutor)
     }
 
-    override func getDescricao() -> String{
-        return """
+    override func getDescricao(){
+        print("""
         Nome do aluno \(self.aluno.nome)
         Nome da aula: \(self.nome)
         Nome do instrutor: \(instrutor.nome)
-        """
+        """)
     }
 }
 
@@ -223,13 +220,13 @@ class AulaColetiva: Aula{
         return false
     }
 
-    override func getDescricao() -> String{
-        return """
+    override func getDescricao(){
+        print("""
         Nome da aula: \(self.nome)
         Nome do instrutor: \(self.instrutor.nome)
         Vagas ocupadas: \(self.alunosInscritos.count)
         Capacidade maxima: \(self.capacidadeMaxima)
-        """
+        """)
     }
 }
 
@@ -302,7 +299,7 @@ class Academia {
             let alunosOrdenados = alunosMatriculados.values.sorted { $0.nome < $1.nome }
 
             for aluno in alunosOrdenados {
-                print (aluno.getDescricao())
+                aluno.getDescricao()
                 print("---")
             }
         }
@@ -316,10 +313,16 @@ class Academia {
             print("Nenhuma aula disponível.")
         } else {
             for aula in aulasDisponiveis {
-                print (aula.getDescricao())
+                aula.getDescricao()
                 print("---")
             }
         }
         print("----------------------------------")
     }
 }
+
+
+
+
+
+
